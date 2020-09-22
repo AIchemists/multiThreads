@@ -6,6 +6,7 @@
 //------------------------------------------------------------------------------
 #pragma once
 
+#include "XamlBindingInfo.xaml.g.h"
 
 namespace winrt::MultiThreads::implementation
 {
@@ -26,13 +27,55 @@ namespace winrt::MultiThreads::implementation
         ::winrt::Windows::UI::Xaml::Markup::IComponentConnector GetBindingConnector(int32_t connectionId, IInspectable const& target);
         void UnloadObject(::winrt::Windows::UI::Xaml::DependencyObject const& dependencyObject);
         void DisconnectUnloadedObject(int32_t connectionId);
+
+        ::winrt::Microsoft::UI::Xaml::Controls::NavigationView NavView()
+        {
+            return _NavView;
+        }
+        void NavView(::winrt::Microsoft::UI::Xaml::Controls::NavigationView value)
+        {
+            _NavView = value;
+        }
+
+        ::winrt::Microsoft::UI::Xaml::Controls::NavigationViewItemHeader MainPagesHeader()
+        {
+            return _MainPagesHeader;
+        }
+        void MainPagesHeader(::winrt::Microsoft::UI::Xaml::Controls::NavigationViewItemHeader value)
+        {
+            _MainPagesHeader = value;
+        }
+
+        ::winrt::Windows::UI::Xaml::Controls::AutoSuggestBox NavViewSearchBox()
+        {
+            return _NavViewSearchBox;
+        }
+        void NavViewSearchBox(::winrt::Windows::UI::Xaml::Controls::AutoSuggestBox value)
+        {
+            _NavViewSearchBox = value;
+        }
+
+        ::winrt::Windows::UI::Xaml::Controls::Frame ContentFrame()
+        {
+            return _ContentFrame;
+        }
+        void ContentFrame(::winrt::Windows::UI::Xaml::Controls::Frame value)
+        {
+            _ContentFrame = value;
+        }
         
+         ::winrt::com_ptr<::winrt::MultiThreads::implementation::XamlBindings> Bindings;
+
     protected:
         bool _contentLoaded{false};
 
     private:
         struct MainPage_obj1_Bindings;
 
+        ::winrt::Microsoft::UI::Xaml::Controls::NavigationView _NavView{nullptr};
+        ::winrt::Microsoft::UI::Xaml::Controls::NavigationViewItemHeader _MainPagesHeader{nullptr};
+        ::winrt::Windows::UI::Xaml::Controls::AutoSuggestBox _NavViewSearchBox{nullptr};
+        ::winrt::Windows::UI::Xaml::Controls::Frame _ContentFrame{nullptr};
     };
 }
 

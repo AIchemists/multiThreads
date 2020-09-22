@@ -9,19 +9,27 @@ WINRT_EXPORT namespace winrt::Windows::UI::Xaml::Markup
 WINRT_EXPORT namespace winrt::MultiThreads
 {
     struct IMainPage;
+    struct IMyContentPage;
     struct MainPage;
+    struct MyContentPage;
     struct XamlMetaDataProvider;
 }
 namespace winrt::impl
 {
     template <> struct category<MultiThreads::IMainPage>{ using type = interface_category; };
+    template <> struct category<MultiThreads::IMyContentPage>{ using type = interface_category; };
     template <> struct category<MultiThreads::MainPage>{ using type = class_category; };
+    template <> struct category<MultiThreads::MyContentPage>{ using type = class_category; };
     template <> struct category<MultiThreads::XamlMetaDataProvider>{ using type = class_category; };
     template <> inline constexpr auto& name_v<MultiThreads::MainPage> = L"MultiThreads.MainPage";
+    template <> inline constexpr auto& name_v<MultiThreads::MyContentPage> = L"MultiThreads.MyContentPage";
     template <> inline constexpr auto& name_v<MultiThreads::XamlMetaDataProvider> = L"MultiThreads.XamlMetaDataProvider";
     template <> inline constexpr auto& name_v<MultiThreads::IMainPage> = L"MultiThreads.IMainPage";
-    template <> inline constexpr guid guid_v<MultiThreads::IMainPage>{ 0xC3E1B8A1,0x81E8,0x5C75,{ 0xA7,0x69,0xA7,0x67,0x46,0x63,0x2A,0x9B } }; // C3E1B8A1-81E8-5C75-A769-A76746632A9B
+    template <> inline constexpr auto& name_v<MultiThreads::IMyContentPage> = L"MultiThreads.IMyContentPage";
+    template <> inline constexpr guid guid_v<MultiThreads::IMainPage>{ 0x0D07DEB7,0x4274,0x51D3,{ 0xA9,0x94,0x54,0x18,0x3B,0x4D,0x06,0x92 } }; // 0D07DEB7-4274-51D3-A994-54183B4D0692
+    template <> inline constexpr guid guid_v<MultiThreads::IMyContentPage>{ 0x9C018ED0,0x9469,0x5737,{ 0x80,0x03,0xDB,0x12,0x31,0x20,0xDE,0x4C } }; // 9C018ED0-9469-5737-8003-DB123120DE4C
     template <> struct default_interface<MultiThreads::MainPage>{ using type = MultiThreads::IMainPage; };
+    template <> struct default_interface<MultiThreads::MyContentPage>{ using type = MultiThreads::IMyContentPage; };
     template <> struct default_interface<MultiThreads::XamlMetaDataProvider>{ using type = Windows::UI::Xaml::Markup::IXamlMetadataProvider; };
     template <> struct abi<MultiThreads::IMainPage>
     {
@@ -29,6 +37,16 @@ namespace winrt::impl
         {
             virtual int32_t __stdcall get_MyProperty(int32_t*) noexcept = 0;
             virtual int32_t __stdcall put_MyProperty(int32_t) noexcept = 0;
+            virtual int32_t __stdcall get_NavViewCompactModeThresholdWidth(double*) noexcept = 0;
+        };
+    };
+    template <> struct abi<MultiThreads::IMyContentPage>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall get_MyProperty(int32_t*) noexcept = 0;
+            virtual int32_t __stdcall put_MyProperty(int32_t) noexcept = 0;
+            virtual int32_t __stdcall get_NavViewCompactModeThresholdWidth(double*) noexcept = 0;
         };
     };
     template <typename D>
@@ -36,10 +54,22 @@ namespace winrt::impl
     {
         [[nodiscard]] WINRT_IMPL_AUTO(int32_t) MyProperty() const;
         WINRT_IMPL_AUTO(void) MyProperty(int32_t value) const;
+        [[nodiscard]] WINRT_IMPL_AUTO(double) NavViewCompactModeThresholdWidth() const;
     };
     template <> struct consume<MultiThreads::IMainPage>
     {
         template <typename D> using type = consume_MultiThreads_IMainPage<D>;
+    };
+    template <typename D>
+    struct consume_MultiThreads_IMyContentPage
+    {
+        [[nodiscard]] WINRT_IMPL_AUTO(int32_t) MyProperty() const;
+        WINRT_IMPL_AUTO(void) MyProperty(int32_t value) const;
+        [[nodiscard]] WINRT_IMPL_AUTO(double) NavViewCompactModeThresholdWidth() const;
+    };
+    template <> struct consume<MultiThreads::IMyContentPage>
+    {
+        template <typename D> using type = consume_MultiThreads_IMyContentPage<D>;
     };
 }
 #endif

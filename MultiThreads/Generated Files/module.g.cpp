@@ -3,6 +3,7 @@
 #include "pch.h"
 #include "winrt/base.h"
 void* winrt_make_MultiThreads_MainPage();
+void* winrt_make_MultiThreads_MyContentPage();
 void* winrt_make_MultiThreads_XamlMetaDataProvider();
 
 bool __stdcall winrt_can_unload_now() noexcept
@@ -26,6 +27,11 @@ void* __stdcall winrt_get_activation_factory([[maybe_unused]] std::wstring_view 
     if (requal(name, L"MultiThreads.MainPage"))
     {
         return winrt_make_MultiThreads_MainPage();
+    }
+
+    if (requal(name, L"MultiThreads.MyContentPage"))
+    {
+        return winrt_make_MultiThreads_MyContentPage();
     }
 
     if (requal(name, L"MultiThreads.XamlMetaDataProvider"))

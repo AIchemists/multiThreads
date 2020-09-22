@@ -32,9 +32,62 @@ namespace winrt::MultiThreads::implementation
         }
     }
 
-    template <typename D, typename... I>
-    void MainPageT<D, I...>::Connect(int32_t, IInspectable const&)
+    template <typename D, typename ... I>
+    void MainPageT<D, I...>::Connect(int32_t connectionId, IInspectable const& target)
     {
+        switch (connectionId)
+        {
+        case 2:
+            {
+                auto targetElement = target.as<::winrt::Microsoft::UI::Xaml::Controls::NavigationView>();
+                this->NavView(targetElement);
+                auto weakThis = ::winrt::make_weak<class_type>(*this);
+                targetElement.Loaded([weakThis](::winrt::Windows::Foundation::IInspectable const& p0, ::winrt::Windows::UI::Xaml::RoutedEventArgs const& p1){
+                    if (auto t = weakThis.get())
+                    {
+                        ::winrt::get_self<D>(t)->NavView_Loaded(p0, p1);
+                    }
+                });
+                targetElement.ItemInvoked([weakThis](::winrt::Microsoft::UI::Xaml::Controls::NavigationView const& p0, ::winrt::Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const& p1){
+                    if (auto t = weakThis.get())
+                    {
+                        ::winrt::get_self<D>(t)->NavView_ItemInvoked(p0, p1);
+                    }
+                });
+                targetElement.BackRequested([weakThis](::winrt::Microsoft::UI::Xaml::Controls::NavigationView const& p0, ::winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const& p1){
+                    if (auto t = weakThis.get())
+                    {
+                        ::winrt::get_self<D>(t)->NavView_BackRequested(p0, p1);
+                    }
+                });
+            }
+            break;
+        case 3:
+            {
+                auto targetElement = target.as<::winrt::Microsoft::UI::Xaml::Controls::NavigationViewItemHeader>();
+                this->MainPagesHeader(targetElement);
+            }
+            break;
+        case 4:
+            {
+                auto targetElement = target.as<::winrt::Windows::UI::Xaml::Controls::AutoSuggestBox>();
+                this->NavViewSearchBox(targetElement);
+            }
+            break;
+        case 5:
+            {
+                auto targetElement = target.as<::winrt::Windows::UI::Xaml::Controls::Frame>();
+                this->ContentFrame(targetElement);
+                auto weakThis = ::winrt::make_weak<class_type>(*this);
+                targetElement.NavigationFailed([weakThis](::winrt::Windows::Foundation::IInspectable const& p0, ::winrt::Windows::UI::Xaml::Navigation::NavigationFailedEventArgs const& p1){
+                    if (auto t = weakThis.get())
+                    {
+                        ::winrt::get_self<D>(t)->ContentFrame_NavigationFailed(p0, p1);
+                    }
+                });
+            }
+            break;
+        }
         _contentLoaded = true;
     }
 
@@ -50,12 +103,84 @@ namespace winrt::MultiThreads::implementation
         throw ::winrt::hresult_invalid_argument { L"No unloadable objects." };
     }
 
-
     template <typename D, typename... I>
-    IComponentConnector MainPageT<D, I...>::GetBindingConnector(int32_t, IInspectable const&)
+    IComponentConnector MainPageT<D, I...>::GetBindingConnector(int32_t connectionId, IInspectable const& target)
     {
-        return nullptr;
+        ::winrt::com_ptr<::winrt::MultiThreads::implementation::XamlBindings> bindings;
+        switch (connectionId)
+        {
+            case 1: // MainPage.xaml line 1
+                {
+                    auto element1 = target.as<::winrt::Windows::UI::Xaml::Controls::Page>();
+                    auto objBindings = std::make_unique<MainPage_obj1_Bindings>();
+                    objBindings->SetDataRoot(*this);
+                    bindings = ::winrt::make_self<::winrt::MultiThreads::implementation::XamlBindings>(std::move(objBindings));
+                    Bindings = bindings;
+                    element1.Loading({&*bindings, &::winrt::MultiThreads::implementation::XamlBindings::Loading});
+                }
+                break;
+        }
+        return bindings ? bindings.as<::winrt::Windows::UI::Xaml::Markup::IComponentConnector>() : nullptr;
     }
+
+    template <typename D, typename ... I>
+    struct MainPageT<D, I...>::MainPage_obj1_Bindings
+        : public ::winrt::MultiThreads::implementation::ReferenceTypeXamlBindings<::winrt::MultiThreads::MainPage, ::winrt::MultiThreads::implementation::XamlBindingTrackingBase>
+{
+        MainPage_obj1_Bindings()
+        {
+        }
+
+        void Connect(int32_t connectionId, IInspectable const& target) override
+        {
+            switch(connectionId)
+            {
+            case 6: // MainPage.xaml line 58
+                {
+                    auto targetElement = target.as<::winrt::Windows::UI::Xaml::AdaptiveTrigger>();
+                    obj6 = targetElement;
+                }
+                break;
+            }
+        }
+
+        void DisconnectUnloadedObject(int connectionId) override
+        {
+            throw ::winrt::hresult_invalid_argument { L"No unloadable elements to disconnect." };
+        }
+
+
+    private:
+        // Fields for each control that has bindings.
+        ::winrt::Windows::UI::Xaml::AdaptiveTrigger obj6 { nullptr };
+
+        // Update methods for each path node used in binding steps.
+
+        void Update_(::winrt::MultiThreads::MainPage obj, int32_t phase)
+        {
+            if (obj)
+            {
+                if ((phase & (NOT_PHASED | (1 << 0))) != 0)
+                {
+                    Update_NavViewCompactModeThresholdWidth(obj.NavViewCompactModeThresholdWidth(), phase);
+                }
+            }
+        }
+
+        void Update_NavViewCompactModeThresholdWidth(double obj, int32_t phase)
+        {
+            if((phase & ((1 << 0) | NOT_PHASED )) != 0)
+            {
+                // MainPage.xaml line 58
+                Set_Windows_UI_Xaml_AdaptiveTrigger_MinWindowWidth(obj6, obj);
+            }
+        }
+
+        static void Set_Windows_UI_Xaml_AdaptiveTrigger_MinWindowWidth(::winrt::Windows::UI::Xaml::AdaptiveTrigger const& obj, double const& value)
+        {
+            obj.MinWindowWidth(value);
+        }
+    }; 
 
     template struct MainPageT<struct MainPage>;
 }

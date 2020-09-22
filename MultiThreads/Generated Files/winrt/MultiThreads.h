@@ -22,6 +22,28 @@ namespace winrt::impl
     {
         check_hresult(WINRT_IMPL_SHIM(MultiThreads::IMainPage)->put_MyProperty(value));
     }
+    template <typename D> WINRT_IMPL_AUTO(double) consume_MultiThreads_IMainPage<D>::NavViewCompactModeThresholdWidth() const
+    {
+        double value{};
+        check_hresult(WINRT_IMPL_SHIM(MultiThreads::IMainPage)->get_NavViewCompactModeThresholdWidth(&value));
+        return value;
+    }
+    template <typename D> WINRT_IMPL_AUTO(int32_t) consume_MultiThreads_IMyContentPage<D>::MyProperty() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(MultiThreads::IMyContentPage)->get_MyProperty(&value));
+        return value;
+    }
+    template <typename D> WINRT_IMPL_AUTO(void) consume_MultiThreads_IMyContentPage<D>::MyProperty(int32_t value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(MultiThreads::IMyContentPage)->put_MyProperty(value));
+    }
+    template <typename D> WINRT_IMPL_AUTO(double) consume_MultiThreads_IMyContentPage<D>::NavViewCompactModeThresholdWidth() const
+    {
+        double value{};
+        check_hresult(WINRT_IMPL_SHIM(MultiThreads::IMyContentPage)->get_NavViewCompactModeThresholdWidth(&value));
+        return value;
+    }
     template <typename D>
     struct produce<D, MultiThreads::IMainPage> : produce_base<D, MultiThreads::IMainPage>
     {
@@ -39,6 +61,38 @@ namespace winrt::impl
             return 0;
         }
         catch (...) { return to_hresult(); }
+        int32_t __stdcall get_NavViewCompactModeThresholdWidth(double* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<double>(this->shim().NavViewCompactModeThresholdWidth());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+    template <typename D>
+    struct produce<D, MultiThreads::IMyContentPage> : produce_base<D, MultiThreads::IMyContentPage>
+    {
+        int32_t __stdcall get_MyProperty(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MyProperty());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_MyProperty(int32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().MyProperty(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_NavViewCompactModeThresholdWidth(double* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<double>(this->shim().NavViewCompactModeThresholdWidth());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
     };
 }
 WINRT_EXPORT namespace winrt::MultiThreads
@@ -48,7 +102,9 @@ namespace std
 {
 #ifndef WINRT_LEAN_AND_MEAN
     template<> struct hash<winrt::MultiThreads::IMainPage> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::MultiThreads::IMyContentPage> : winrt::impl::hash_base {};
     template<> struct hash<winrt::MultiThreads::MainPage> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::MultiThreads::MyContentPage> : winrt::impl::hash_base {};
     template<> struct hash<winrt::MultiThreads::XamlMetaDataProvider> : winrt::impl::hash_base {};
 #endif
 }

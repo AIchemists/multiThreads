@@ -1,5 +1,5 @@
 #pragma once
-#include "MainPage.g.h"
+#include "MyContentPage.g.h"
 
 // Note: Remove this static_assert after copying these generated source files to your project.
 // This assertion exists to avoid compiling these generated source files directly.
@@ -7,9 +7,9 @@ static_assert(false, "Do not compile generated C++/WinRT source files directly")
 
 namespace winrt::MultiThreads::implementation
 {
-    struct MainPage : MainPageT<MainPage>
+    struct MyContentPage : MyContentPageT<MyContentPage>
     {
-        MainPage() = default;
+        MyContentPage() = default;
 
         int32_t MyProperty();
         void MyProperty(int32_t value);
@@ -18,7 +18,7 @@ namespace winrt::MultiThreads::implementation
 }
 namespace winrt::MultiThreads::factory_implementation
 {
-    struct MainPage : MainPageT<MainPage, implementation::MainPage>
+    struct MyContentPage : MyContentPageT<MyContentPage, implementation::MyContentPage>
     {
     };
 }

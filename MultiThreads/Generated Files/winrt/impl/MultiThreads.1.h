@@ -12,5 +12,12 @@ WINRT_EXPORT namespace winrt::MultiThreads
         IMainPage(std::nullptr_t = nullptr) noexcept {}
         IMainPage(void* ptr, take_ownership_from_abi_t) noexcept : Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IMyContentPage :
+        Windows::Foundation::IInspectable,
+        impl::consume_t<IMyContentPage>
+    {
+        IMyContentPage(std::nullptr_t = nullptr) noexcept {}
+        IMyContentPage(void* ptr, take_ownership_from_abi_t) noexcept : Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
 }
 #endif
